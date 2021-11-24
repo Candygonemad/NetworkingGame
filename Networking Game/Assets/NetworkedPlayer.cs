@@ -4,6 +4,7 @@ using UnityEngine;
 public class NetworkedPlayer : NetworkBehaviour
 {
     public NetworkVariable<Vector2> Position = new NetworkVariable<Vector2>();
+    public GameObject bulletPool;
 
     public override void OnNetworkSpawn()
     {
@@ -24,6 +25,7 @@ public class NetworkedPlayer : NetworkBehaviour
 
     public void Move()
     {
+        bulletPool.GetComponent<BulletPool>().Spawn();
         if (NetworkManager.Singleton.IsServer)
         {
             var randomPosition = GetRandomPosition();
@@ -49,6 +51,6 @@ public class NetworkedPlayer : NetworkBehaviour
 
     void Update()
     {
-        transform.position = Position.Value;
+        //transform.position = Position.Value;
     }
 }

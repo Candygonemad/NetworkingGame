@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class Shoot : MonoBehaviour
+public class Shoot : NetworkBehaviour
 {
     public BulletPatterns currentBulletPattern;
     private float lastShotTime = 0f;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +17,8 @@ public class Shoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!IsOwner)
+            return;
         if(Input.GetKey(KeyCode.Space) && Time.time > lastShotTime + currentBulletPattern.bulletPatterns[0].timeBetweenShots)
         {
             float angleStep = (currentBulletPattern.bulletPatterns[0].endAngle - currentBulletPattern.bulletPatterns[0].startAngle) / currentBulletPattern.bulletPatterns[0].bulletsAmount;
@@ -36,6 +40,8 @@ public class Shoot : MonoBehaviour
                     bul.SetActive(true);
                     bul.GetComponent<Bullet>().SetMoveDirection(bulDir);
                     bul.GetComponent<Bullet>().damage = currentBulletPattern.bulletPatterns[0].damage;
+
+                    bul.GetComponent<Bullet>().BulletMoveServerRpc();
                 }
 
                 angle += angleStep;
@@ -44,4 +50,6 @@ public class Shoot : MonoBehaviour
             lastShotTime = Time.time;
         }
     }
+
+    
 }

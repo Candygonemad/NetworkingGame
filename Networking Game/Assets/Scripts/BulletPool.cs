@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class BulletPool : MonoBehaviour
+public class BulletPool : NetworkBehaviour
 {
     public static BulletPool bulletPoolInstance;
 
@@ -14,21 +15,14 @@ public class BulletPool : MonoBehaviour
 
     private void Awake()
     {
-        bulletPoolInstance = this;
-
-        bullets = new GameObject[poolLength];
-        for (int i = 0; i < poolLength; i++)
-        {
-            bullets[i] = Instantiate(pooledBullet);
-            bullets[i].SetActive(false);
-        }
+        
     }
 
     // Start is called before the first frame update
     void Start()
     {
         
-            
+
     }
 
     // Update is called once per frame
@@ -37,22 +31,30 @@ public class BulletPool : MonoBehaviour
         
     }
 
+    public void Spawn()
+    {
+        Debug.Log("Got here");
+        bulletPoolInstance = this;
+
+        bullets = new GameObject[poolLength];
+        for (int i = 0; i < poolLength; i++)
+        {
+            bullets[i] = Instantiate(pooledBullet);
+            bullets[i].GetComponent<NetworkObject>().Spawn();
+            bullets[i].SetActive(false);
+        }
+    }
+
     public GameObject GetBullet()
     {
-        Debug.Log("Bullets Length: " + bullets.Length);
         if(bullets.Length > 0)
         {
-            Debug.Log("Length greater");
             for(int i = 0; i < bullets.Length; i++)
             {
                 if (!bullets[i].activeInHierarchy)
                 {
-                    Debug.Log("Inactive bullet");
                     return bullets[i];
                 }
-                    
-                else
-                    Debug.Log("Not active");
             }
         }
         else

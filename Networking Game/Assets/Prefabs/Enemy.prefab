@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6703278213625548379}
   - component: {fileID: 8310674541604874882}
   - component: {fileID: 2909161770347535810}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -101,6 +101,7 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: 0, z: 0}
   timeAlive: 10
+  rotationSpeed: 720
 --- !u!58 &2909161770347535810
 CircleCollider2D:
   m_ObjectHideFlags: 0

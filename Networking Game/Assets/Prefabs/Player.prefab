@@ -18,8 +18,8 @@ GameObject:
   - component: {fileID: 5686821326579310444}
   - component: {fileID: 5686821326579310445}
   - component: {fileID: 2956641342210017744}
-  - component: {fileID: -8032731057571738500}
-  - component: {fileID: -7715585683921911356}
+  - component: {fileID: -3983927613250998802}
+  - component: {fileID: -1225426347156018714}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -106,6 +106,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 7
+  Position:
+    m_InternalValue: {x: 0, y: 0}
 --- !u!114 &5686821326579310449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,7 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth:
-    m_InternalValue: 3
+    m_InternalValue: 1000000
 --- !u!61 &5686821326579310451
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -155,7 +157,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -222,7 +224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Position:
     m_InternalValue: {x: 0, y: 0}
---- !u!114 &-8032731057571738500
+--- !u!114 &-3983927613250998802
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -231,7 +233,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5686821326579310452}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Script: {fileID: 11500000, guid: 54c9647dc784a46bca664910f182491e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SyncPositionX: 1
@@ -248,8 +250,8 @@ MonoBehaviour:
   ScaleThreshold: 0.01
   InLocalSpace: 0
   Interpolate: 1
-  CanCommitToTransform: 0
---- !u!114 &-7715585683921911356
+  CanCommitToTransform: 1
+--- !u!114 &-1225426347156018714
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

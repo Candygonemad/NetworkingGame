@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class Bullet : MonoBehaviour
+public class Bullet : NetworkBehaviour
 {
     public float timeBetweenShots = .5f;
     public float moveSpeed = 5f;
@@ -10,6 +11,8 @@ public class Bullet : MonoBehaviour
 
     [HideInInspector]
     public int damage;
+
+    public NetworkVariable<Vector2> Position = new NetworkVariable<Vector2>();
     // Start is called before the first frame update
     void Start()
     {
@@ -36,7 +39,6 @@ public class Bullet : MonoBehaviour
     {
         if (collision.transform.tag == "Enemy")
         {
-            Debug.Log("Bullet HIT Enemy");
             collision.gameObject.GetComponent<Enemy>().TakeDamage(damage);
             Destroy();
         }
@@ -45,5 +47,14 @@ public class Bullet : MonoBehaviour
     private void Destroy()
     {
         gameObject.SetActive(false);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void BulletMoveServerRpc()
+    {
+        if (!IsOwner)
+            return;
+        Debug.Log("Bullet moving");
+        Position.Value = transform.position;
     }
 }

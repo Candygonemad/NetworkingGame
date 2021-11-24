@@ -6,6 +6,7 @@ public class PlayerMovement : NetworkBehaviour
     public float speed = .2f;
     private Vector2 movement;
     private Rigidbody2D rb2D;
+    public NetworkVariable<Vector2> Position = new NetworkVariable<Vector2>();
 
     // Start is called before the first frame update
     void Start()
@@ -16,32 +17,31 @@ public class PlayerMovement : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!IsOwner) return;
-
+        if (!IsClient) return;
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
     }
 
     private void FixedUpdate()
     {
-        if (!IsOwner) return;
+        if (!IsLocalPlayer) return;
 
-        Debug.Log("In fixed update");
-        MoveServerRpc();
-    }
-
-    [ServerRpc]
-    public void MoveServerRpc(ServerRpcParams rpcParams = default)
-    {
-        Debug.Log("In ServerRPC");
         rb2D.velocity = movement * speed * Time.fixedDeltaTime;
 
-        this.gameObject.GetComponent<NetworkedPlayer>().Position.Value += rb2D.velocity;
-        MoveClientRpc();
+        if (NetworkManager.Singleton.IsServer)
+        {
+
+            Position.Value = transform.position;
+        }
+        else
+        {
+            MoveServerRpc();
+        }
+        transform.position = new Vector3(transform.position.x + rb2D.velocity.x, transform.position.y + rb2D.velocity.y, transform.position.z);
     }
 
-    [ClientRpc]
-    private void MoveClientRpc()
+    [ServerRpc(RequireOwnership = false)]
+    public void MoveServerRpc()
     {
-        transform.position = this.gameObject.GetComponent<NetworkedPlayer>().Position.Value;
+        Position.Value = transform.position;
     }
 }
