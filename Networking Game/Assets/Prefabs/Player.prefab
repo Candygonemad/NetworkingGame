@@ -18,8 +18,8 @@ GameObject:
   - component: {fileID: 5686821326579310444}
   - component: {fileID: 5686821326579310445}
   - component: {fileID: 2956641342210017744}
-  - component: {fileID: -3983927613250998802}
-  - component: {fileID: -1225426347156018714}
+  - component: {fileID: -3775060854715849473}
+  - component: {fileID: -8112276969719448755}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -108,6 +108,8 @@ MonoBehaviour:
   speed: 7
   Position:
     m_InternalValue: {x: 0, y: 0}
+  bulletPool: {fileID: 2770172851790171656, guid: 64f1fb6962403f44890fb6d785c9a915, type: 3}
+  director: {fileID: 0}
 --- !u!114 &5686821326579310449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,6 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentBulletPattern: {fileID: 5686821326579310448}
+  director: {fileID: 0}
 --- !u!114 &5686821326579310448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,6 +150,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth:
     m_InternalValue: 1000000
+  currentHealth:
+    m_InternalValue: 0
 --- !u!61 &5686821326579310451
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -224,7 +229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Position:
     m_InternalValue: {x: 0, y: 0}
---- !u!114 &-3983927613250998802
+--- !u!114 &-3775060854715849473
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -238,10 +243,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SyncPositionX: 1
   SyncPositionY: 1
-  SyncPositionZ: 0
-  SyncRotAngleX: 0
-  SyncRotAngleY: 0
-  SyncRotAngleZ: 0
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
   SyncScaleX: 0
   SyncScaleY: 0
   SyncScaleZ: 0
@@ -251,7 +256,7 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   CanCommitToTransform: 1
---- !u!114 &-1225426347156018714
+--- !u!114 &-8112276969719448755
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

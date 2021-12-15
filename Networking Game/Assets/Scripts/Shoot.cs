@@ -7,11 +7,12 @@ public class Shoot : NetworkBehaviour
 {
     public BulletPatterns currentBulletPattern;
     private float lastShotTime = 0f;
+    public AIDirector director;
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        director = GameObject.Find("AI Director").GetComponent<AIDirector>();
     }
 
     // Update is called once per frame
@@ -32,6 +33,8 @@ public class Shoot : NetworkBehaviour
                 Vector3 bulMoveVector = new Vector3(bulDirX, bulDirY, 0f);
                 Vector2 bulDir = (bulMoveVector - transform.position).normalized;
 
+                Debug.Log("Bullet Instance:" + BulletPool.bulletPoolInstance);
+                Debug.Log("Bullet: " + BulletPool.bulletPoolInstance.GetBullet());
                 GameObject bul = BulletPool.bulletPoolInstance.GetBullet();
                 if(bul != null)
                 {
@@ -41,7 +44,10 @@ public class Shoot : NetworkBehaviour
                     bul.GetComponent<Bullet>().SetMoveDirection(bulDir);
                     bul.GetComponent<Bullet>().damage = currentBulletPattern.bulletPatterns[0].damage;
 
-                    bul.GetComponent<Bullet>().BulletMoveServerRpc();
+                    if(!IsHost)
+                        bul.GetComponent<Bullet>().BulletMoveServerRpc();
+
+                    director.bulletsShot++;
                 }
 
                 angle += angleStep;
@@ -49,6 +55,7 @@ public class Shoot : NetworkBehaviour
 
             lastShotTime = Time.time;
         }
+
     }
 
     

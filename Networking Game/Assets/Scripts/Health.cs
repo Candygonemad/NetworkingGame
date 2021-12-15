@@ -4,7 +4,8 @@ using UnityEngine;
 public class Health : NetworkBehaviour
 {
     public NetworkVariable<int> maxHealth = new NetworkVariable<int>(3);
-    private NetworkVariable<int> currentHealth;
+    [HideInInspector]
+    public NetworkVariable<int> currentHealth;
     // Start is called before the first frame update
     void Start()
     {

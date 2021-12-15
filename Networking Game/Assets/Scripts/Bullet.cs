@@ -12,22 +12,28 @@ public class Bullet : NetworkBehaviour
     [HideInInspector]
     public int damage;
 
+    [HideInInspector]
+    public AIDirector director;
+
     public NetworkVariable<Vector2> Position = new NetworkVariable<Vector2>();
+    public NetworkVariable<Quaternion> Rotation = new NetworkVariable<Quaternion>();
     // Start is called before the first frame update
     void Start()
     {
-        
+        director = GameObject.Find("AI Director").GetComponent<AIDirector>();
     }
 
     // Update is called once per frame
     void Update()
     {
         transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
+        if(!IsHost)
+            BulletMoveServerRpc();
     }
 
     private void OnEnable()
     {
-        Invoke("Destroy", 15f);
+        Invoke("Destroy", 7f);
     }
 
     public void SetMoveDirection(Vector2 dir)
@@ -39,6 +45,7 @@ public class Bullet : NetworkBehaviour
     {
         if (collision.transform.tag == "Enemy")
         {
+            director.enemiesHit++;
             collision.gameObject.GetComponent<Enemy>().TakeDamage(damage);
             Destroy();
         }
@@ -52,9 +59,8 @@ public class Bullet : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void BulletMoveServerRpc()
     {
-        if (!IsOwner)
-            return;
-        Debug.Log("Bullet moving");
+        //Debug.Log("Bullet Shmoving");
         Position.Value = transform.position;
+        Rotation.Value = transform.rotation;
     }
 }
